@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cerjo & Kim — May 27, 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f9f5f0;
+      --stone: #e8e0d5;
+      --bark: #9c8472;
+      --deep: #3a2e26;
+      --sage: #8fa eighteen;
+      --ink: #2c2420;
+      --gold: #c9a96e;
+      --sage: #8a9e85;
+      --blush: #d9b8a7;
+    }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 60px; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 1.08rem;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3rem;
+      padding: 1.1rem 2rem;
+      background: rgba(58, 46, 38, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,169,110,0.25);
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+    nav a {
+      color: rgba(255,255,255,0.82);
+      text-decoration: none;
+      transition: color 0.3s;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+    nav a:hover { color: var(--gold); }
+    nav a:hover::after { transform: scaleX(1); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(28, 20, 14, 0.42);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero.no-image::before {
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 80%, rgba(201,169,110,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(138,158,133,0.1) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(217,184,167,0.07) 0%, transparent 60%);
+    }
+
+    .hero-upload-btn {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 10;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.9);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.63rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.55rem 1.1rem;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: background 0.3s;
+      border-radius: 2px;
+    }
+    .hero-upload-btn:hover { background: rgba(255,255,255,0.28); }
+    #hero-file-input { display: none; }
+
+    .hero-ampersand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(10rem, 25vw, 18rem);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(255,255,255,0.07);
+      line-height: 1;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      user-select: none;
+      z-index: 1;
+    }
+
+    .hero-content { position: relative; z-index: 2; }
+
+    .hero-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.3s forwards;
+    }
+
+    .hero-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 9vw, 7.5rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1;
+      color: #fff;
+      opacity: 0;
+      animation: fadeUp 1s 0.5s forwards;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.15em;
+      white-space: nowrap;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.35);
+      letter-spacing: 0.04em;
+    }
+
+    .hero-name-text {
+      background: linear-gradient(135deg, #fff 30%, rgba(201,169,110,0.85) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+    }
+
+    .hero-amp {
+      font-size: 0.75em;
+      color: var(--gold);
+      -webkit-text-fill-color: var(--gold);
+      font-style: italic;
+      margin: 0 0.1em;
+      line-height: 1;
+      filter: drop-shadow(0 0 12px rgba(201,169,110,0.6));
+    }
+
+    .hero-date {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      opacity: 0;
+      animation: fadeUp 1s 0.7s forwards;
+    }
+
+    .hero-divider {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 1.5rem auto;
+      opacity: 0;
+      animation: fadeUp 1s 0.9s forwards;
+    }
+
+    .countdown {
+      display: flex;
+      gap: 2.5rem;
+      justify-content: center;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 1s 1.1s forwards;
+    }
+
+    .countdown-item { text-align: center; }
+    .countdown-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: #fff;
+      line-height: 1;
+    }
+    .countdown-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-top: 0.3rem;
+    }
+
+    .hero-hashtag {
+      margin-top: 1.8rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-style: italic;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      opacity: 0;
+      animation: fadeUp 1s 1.3s forwards;
+    }
+
+    .footer-hashtag {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--gold);
+      margin-top: 0.6rem;
+      letter-spacing: 0.06em;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 7rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--deep);
+      text-align: center;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .section-rule {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin: 1.2rem auto 3rem;
+    }
+
+    /* STORY */
+    .story-text {
+      line-height: 1.95;
+      color: #5a4a40;
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto;
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      font-weight: 300;
+    }
+
+    /* DETAILS */
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 0 3rem;
+      align-items: start;
+      margin-top: 1rem;
+    }
+
+    .details-divider {
+      background: var(--stone);
+      align-self: stretch;
+    }
+
+    .detail-block { text-align: center; padding: 2rem 1rem; }
+
+    .detail-icon {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: var(--gold);
+    }
+
+    .detail-block h3 {
+      font-size: 0.78rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--bark);
+      margin-bottom: 0.8rem;
+    }
+
+    .detail-block p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      color: var(--deep);
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    .detail-block .time {
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: var(--bark);
+      margin-top: 0.5rem;
+      font-family: 'Jost', sans-serif;
+      font-style: normal;
+    }
+
+    @media (max-width: 600px) {
+      .details-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .details-divider { display: none; }
+    }
+
+    /* PALETTE */
+    .palette-section {
+      background: white;
+      border-radius: 2px;
+      padding: 5rem 2rem;
+      max-width: 100%;
+      margin: 0;
+    }
+
+    .palette-section > * { max-width: 900px; margin-left: auto; margin-right: auto; }
+
+    .palette-grid {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 0;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .swatch-color {
+      width: 80px;
+      height: 110px;
+      border-radius: 40px 40px 4px 4px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      transition: transform 0.3s;
+    }
+
+    .swatch:hover .swatch-color { transform: translateY(-6px); }
+
+    .swatch-name {
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--bark);
+      text-align: center;
+    }
+    .swatch-hex {
+      font-size: 0.6rem;
+      color: #b0a090;
+      letter-spacing: 0.05em;
+    }
+
+    /* GALLERY */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .gallery-item {
+      aspect-ratio: 3/4;
+      background: var(--stone);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.4s;
+    }
+
+    .gallery-item:nth-child(2) { aspect-ratio: 3/4; margin-top: 2rem; }
+    .gallery-item:nth-child(5) { margin-top: -2rem; }
+
+    .gallery-item:hover { transform: scale(1.02); }
+
+    .gallery-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--bark);
+      gap: 0.5rem;
+    }
+
+    .gallery-placeholder svg { opacity: 0.35; }
+    .gallery-placeholder span {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.5;
+    }
+
+    @media (max-width: 600px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-item:nth-child(2),
+      .gallery-item:nth-child(5) { margin-top: 0; }
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      border-top: 1px solid var(--stone);
+    }
+
+    .footer-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-style: italic;
+      color: var(--deep);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-date {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--bark);
+    }
+
+    section.reveal-ready {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    section.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* PALETTE ROLES */
+    .palette-roles { display: flex; flex-direction: column; gap: 0; }
+
+    .role-row {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.6rem 0;
+      border-bottom: 1px solid var(--stone);
+    }
+    .role-row:last-child { border-bottom: none; }
+
+    .role-label {
+      min-width: 180px;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bark);
+      line-height: 1.6;
+    }
+    .role-sub {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      opacity: 0.7;
+      text-transform: none;
+      font-style: italic;
+      letter-spacing: 0;
+    }
+
+    .role-swatches { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+
+    .swatch { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+
+    .swatch-color {
+      width: 64px;
+      height: 90px;
+      border-radius: 32px 32px 4px 4px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      transition: transform 0.3s;
+    }
+    .swatch:hover .swatch-color { transform: translateY(-5px); }
+
+    .swatch-name {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-align: center;
+    }
+
+    .swatch-gender {
+      font-size: 0.58rem;
+      letter-spacing: 0.05em;
+      padding: 0.15rem 0.5rem;
+      border-radius: 20px;
+      text-align: center;
+    }
+    .swatch-gender.female { background: #f5e8e8; color: #a06070; }
+    .swatch-gender.male   { background: #e8ede8; color: #607060; }
+
+    @media (max-width: 600px) {
+      .role-row { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .role-label { min-width: unset; }
+    }
+
+    /* TIMELINE */
+    .timeline-list {
+      position: relative;
+      padding: 1rem 0;
+    }
+    .timeline-list::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: rgba(201,169,110,0.3);
+      transform: translateX(-50%);
+    }
+    .tl-item {
+      display: grid;
+      grid-template-columns: 1fr 32px 1fr;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .tl-time {
+      text-align: right;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--gold);
+    }
+    .tl-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 2px solid var(--deep);
+      box-shadow: 0 0 0 3px rgba(201,169,110,0.3);
+      justify-self: center;
+    }
+    .tl-event {
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* DRESS CODE */
+    .dresscode-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .dc-card {
+      background: white;
+      border-radius: 4px;
+      padding: 2rem 1.8rem;
+    }
+    .dc-role {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.4rem;
+    }
+    .dc-item { margin-bottom: 1rem; }
+    .dc-item p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--deep);
+      line-height: 1.6;
+      margin-top: 0.4rem;
+    }
+    .dc-divider {
+      height: 1px;
+      background: var(--stone);
+      margin: 1.2rem 0;
+    }
+    .female-tag, .male-tag {
+      display: inline-block;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.7rem;
+      border-radius: 20px;
+    }
+    .female-tag { background: #f5e8e8; color: #a06070; }
+    .male-tag   { background: #e8ede8; color: #506050; }
+    .dc-note {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      background: rgba(58,46,38,0.07);
+      border-left: 3px solid var(--gold);
+      padding: 1.2rem 1.5rem;
+      border-radius: 0 4px 4px 0;
+    }
+    .dc-note-icon { font-size: 1.2rem; flex-shrink: 0; }
+    .dc-note p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+    @media (max-width: 600px) {
+      .dresscode-grid { grid-template-columns: 1fr; }
+    }
+
+    /* GALLERY NOTICES */
+    .gallery-notices {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .gn-card {
+      background: white;
+      border: 1px solid var(--stone);
+      border-radius: 4px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    .gn-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+    .gn-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--deep);
+      margin-bottom: 0.8rem;
+    }
+    .gn-text {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: #6a5a52;
+    }
+    .gn-text strong { color: var(--bark); }
+    @media (max-width: 650px) {
+      .gallery-notices { grid-template-columns: 1fr; }
+    }
+
+    /* FAQ */
+    .faq-list { display: flex; flex-direction: column; gap: 0; }
+    .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.9);
+      font-family: 'Jost', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      text-align: left;
+      padding: 1.4rem 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      transition: color 0.3s;
+    }
+    .faq-q:hover { color: var(--gold); }
+    .faq-arrow {
+      font-size: 1rem;
+      color: var(--gold);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+    .faq-a {
+      display: none;
+      padding: 0 0 1.4rem;
+    }
+    .faq-a p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.65);
+    }
+    .faq-a p strong { color: var(--gold); }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-item.open .faq-a { display: block; }
+
+    /* Full width palette strip */
+    .full-strip {
+      width: 100%;
+      max-width: none;
+    }
+
+    section.palette-wrapper {
+      max-width: 100%;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#story">Story</a>
+    <a href="#details">Details</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#palette">Palette</a>
+    <a href="#dresscode">Dress Code</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero" id="hero" style="background-image:url('Cover.jpg');">
+    <div class="hero-ampersand">&</div>
+    <input type="file" id="hero-file-input" accept="image/*">
+    <div class="hero-content">
+      <p class="hero-eyebrow">We're getting married</p>
+      <h1 class="hero-names">
+        <span class="hero-name-text">Cerjo</span><span class="hero-amp">&</span><span class="hero-name-text">Kim</span>
+      </h1>
+      <div class="hero-divider"></div>
+      <p class="hero-date">Wednesday · May 27, 2026 · May's Garden</p>
+      <div class="countdown" id="countdown">
+        <div class="countdown-item"><div class="countdown-num" id="cd-days">--</div><div class="countdown-label">Days</div></div>
+        <div class="countdown-item"><div class="countdown-num" id="cd-hours">--</div><div class="countdown-label">Hours</div></div>
+        <div class="countdown-item"><div class="countdown-num" id="cd-mins">--</div><div class="countdown-label">Minutes</div></div>
+        <div class="countdown-item"><div class="countdown-num" id="cd-secs">--</div><div class="countdown-label">Seconds</div></div>
+      </div>
+      <p class="hero-hashtag">#CerjoAndKim</p>
+    </div>
+  </div>
+
+  <!-- STORY -->
+  <section id="story">
+    <p class="section-label">How it began</p>
+    <h2 class="section-title">Our Story</h2>
+    <div class="section-rule"></div>
+    <p class="story-text">
+      Cerjo and Kim first met during their college years. Back then, Cerjo tried to make Kim feel that he liked her, but things didn't quite fall into place. Life went on, and their paths drifted apart.<br><br>
+      Eight years later, in 2021, fate brought them back together. It all started with a simple comment Cerjo left on one of Kim's social media stories. From that small moment, something beautiful began to grow.<br><br>
+      What once was a missed chance turned into a second beginning — one that led them to where they are now.<br><br>
+      And today, their story continues… on a journey toward forever. 💍✨
+    </p>
+  </section>
+
+  <!-- DETAILS -->
+  <section id="details" style="background: var(--stone); max-width:100%; padding:5rem 2rem;">
+    <div style="max-width:900px; margin:0 auto;">
+      <p class="section-label">The celebration</p>
+      <h2 class="section-title">Wedding Details</h2>
+      <div class="section-rule"></div>
+      <div class="details-grid">
+        <div class="detail-block">
+          <div class="detail-icon">🌿</div>
+          <h3>Ceremony</h3>
+          <p>Lake Side<br>May's Garden</p>
+          <p class="time">4:00 PM · May 27, 2026</p>
+        </div>
+        <div class="details-divider"></div>
+        <div class="detail-block">
+          <div class="detail-icon">✨</div>
+          <h3>Reception</h3>
+          <p>Glass House<br>May's Garden</p>
+          <p class="time">Following the Ceremony</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section id="timeline" style="max-width:100%; padding:6rem 2rem; background: var(--deep);">
+    <div style="max-width:700px; margin:0 auto;">
+      <p class="section-label" style="color:var(--gold);">The Day</p>
+      <h2 class="section-title" style="color:#fff;">Wedding Timeline</h2>
+      <div class="section-rule"></div>
+      <div class="timeline-list">
+        <div class="tl-item"><div class="tl-time">4:00 PM</div><div class="tl-dot"></div><div class="tl-event">Ceremony</div></div>
+        <div class="tl-item"><div class="tl-time">5:00 PM</div><div class="tl-dot"></div><div class="tl-event">Group Photo</div></div>
+        <div class="tl-item"><div class="tl-time">5:15 PM</div><div class="tl-dot"></div><div class="tl-event">Post Nup Shoot</div></div>
+        <div class="tl-item"><div class="tl-time">5:30 PM</div><div class="tl-dot"></div><div class="tl-event">Cocktail Hour</div></div>
+        <div class="tl-item"><div class="tl-time">6:30 PM</div><div class="tl-dot"></div><div class="tl-event">Reception</div></div>
+        <div class="tl-item"><div class="tl-time">8:30 PM</div><div class="tl-dot"></div><div class="tl-event">After Party</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PALETTE -->
+  <section id="palette" style="max-width:100%; padding:6rem 2rem; background: var(--cream);">
+    <div style="max-width:960px; margin:0 auto;">
+      <p class="section-label">Color story</p>
+      <h2 class="section-title">Wedding Palette</h2>
+      <div class="section-rule"></div>
+
+      <div class="palette-roles">
+
+        <!-- Parents -->
+        <div class="role-row">
+          <div class="role-label">Parents</div>
+          <div class="role-swatches">
+            <div class="swatch">
+              <div class="swatch-color" style="background:#e8dcc8; border:1px solid #d4c9b0;"></div>
+              <div class="swatch-name">Beige</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Entourage -->
+        <div class="role-row">
+          <div class="role-label">Entourage<br><span class="role-sub">Principal · Secondary · Flower Girls</span></div>
+          <div class="role-swatches">
+            <div class="swatch">
+              <div class="swatch-color" style="background:#f5e6c8; border:1px solid #e8d4a8;"></div>
+              <div class="swatch-name">Champagne</div>
+              <div class="swatch-gender female">♀ Female</div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background:#e8dcc8; border:1px solid #d4c9b0;"></div>
+              <div class="swatch-name">Beige</div>
+              <div class="swatch-gender male">♂ Male</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Maid of Honor -->
+        <div class="role-row">
+          <div class="role-label">Maid of Honor</div>
+          <div class="role-swatches">
+            <div class="swatch">
+              <div class="swatch-color" style="background:#b08080;"></div>
+              <div class="swatch-name">Vintage Mauve</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Best Man -->
+        <div class="role-row">
+          <div class="role-label">Best Man</div>
+          <div class="role-swatches">
+            <div class="swatch">
+              <div class="swatch-color" style="background:#c2b280; border:1px solid #b0a070;"></div>
+              <div class="swatch-name">Khaki</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guests -->
+        <div class="role-row">
+          <div class="role-label">Guests</div>
+          <div class="role-swatches">
+            <div class="swatch">
+              <div class="swatch-color" style="background:#c9a0a0;"></div>
+              <div class="swatch-name">Dusty Rose</div>
+              <div class="swatch-gender female">♀ Female</div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background:#c47f7f;"></div>
+              <div class="swatch-name">English Rose</div>
+              <div class="swatch-gender female">♀ Female</div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background:#c9a882;"></div>
+              <div class="swatch-name">Rose Gold</div>
+              <div class="swatch-gender female">♀ Female</div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background:#c2b280; border:1px solid #b0a070;"></div>
+              <div class="swatch-name">Khaki</div>
+              <div class="swatch-gender male">♂ Male</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DRESS CODE -->
+  <section id="dresscode" style="max-width:100%; padding:6rem 2rem; background: var(--stone);">
+    <div style="max-width:900px; margin:0 auto;">
+      <p class="section-label">What to wear</p>
+      <h2 class="section-title">Dress Code</h2>
+      <div class="section-rule"></div>
+      <div class="dresscode-grid">
+        <div class="dc-card">
+          <div class="dc-role">Principal Sponsors</div>
+          <div class="dc-item">
+            <div class="dc-gender female-tag">♀ Ladies</div>
+            <p>Champagne / Beige Gown<br>Blocked heels or flats</p>
+          </div>
+          <div class="dc-divider"></div>
+          <div class="dc-item">
+            <div class="dc-gender male-tag">♂ Gentlemen</div>
+            <p>Black Suit with Bowtie<br>Formal shoes</p>
+          </div>
+        </div>
+        <div class="dc-card">
+          <div class="dc-role">Guests</div>
+          <div class="dc-item">
+            <div class="dc-gender female-tag">♀ Ladies</div>
+            <p>Long Gown<br>Blocked heels or flats</p>
+          </div>
+          <div class="dc-divider"></div>
+          <div class="dc-item">
+            <div class="dc-gender male-tag">♂ Gentlemen</div>
+            <p>All Black Suit<br>No bowtie / necktie</p>
+          </div>
+        </div>
+      </div>
+      <div class="dc-note">
+        <span class="dc-note-icon">📌</span>
+        <p>No sneakers, shorts, or short sleeves please. The event is strictly formal. Please dress appropriately — the area is mountainous and could be chilly / foggy.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" style="max-width:900px; margin:0 auto; padding:6rem 2rem;">
+    <p class="section-label">Memories</p>
+    <h2 class="section-title">Photo Gallery</h2>
+    <div class="section-rule"></div>
+
+    <!-- Gallery Notice Cards -->
+    <div class="gallery-notices">
+      <div class="gn-card">
+        <div class="gn-icon">🎁</div>
+        <h3 class="gn-title">A Gift From the Heart</h3>
+        <p class="gn-text">Your presence is the greatest gift we could ask for, but if you would like to contribute to our future plans, a monetary gift is much appreciated.</p>
+      </div>
+      <div class="gn-card">
+        <div class="gn-icon">📵</div>
+        <h3 class="gn-title">Unplugged Ceremony</h3>
+        <p class="gn-text">We invite you to be fully present during our ceremony. Please turn off your phones and cameras until we have officially tied the knot.</p>
+      </div>
+      <div class="gn-card">
+        <div class="gn-icon">📸</div>
+        <h3 class="gn-title">Oh Snap!</h3>
+        <p class="gn-text">Help us document our special day by tagging us using our official hashtag <strong>#foreverKIMittedtoCERJO</strong></p>
+      </div>
+    </div>
+
+    <div class="gallery-grid" style="margin-top:3rem;">
+      <div class="gallery-item"><img src="g5.jpeg" alt="Wedding couple" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div class="gallery-item"><img src="g8.jpeg" alt="Wedding rings" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div class="gallery-item"><img src="G3.jpeg" alt="Wedding flowers" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div class="gallery-item"><img src="G2.jpeg" alt="Wedding ceremony" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div class="gallery-item"><img src="G4.jpeg" alt="Couple portrait" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div class="gallery-item"><img src="g6.jpeg" alt="Wedding reception" style="width:100%;height:100%;object-fit:cover;"></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="max-width:100%; padding:6rem 2rem; background: var(--deep);">
+    <div style="max-width:780px; margin:0 auto;">
+      <p class="section-label" style="color:var(--gold);">Good to know</p>
+      <h2 class="section-title" style="color:#fff;">Frequently Asked Questions</h2>
+      <div class="section-rule"></div>
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Do you have any gift preferences?
+            <span class="faq-arrow">﹀</span>
+          </button>
+          <div class="faq-a">
+            <p>As love is what this day is all about, your presence is one we couldn't celebrate without. However, should you insist that a gift is worth giving, a small saving for our future is a delightful blessing.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Can I bring a plus one?
+            <span class="faq-arrow">﹀</span>
+          </button>
+          <div class="faq-a">
+            <p>Please refer to the number of seat/s allotted for you. As much as we want to celebrate with everybody, unfortunately we can only accommodate a limited number of guests due to venue and budget restrictions.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Can I bring my kid(s) with me?
+            <span class="faq-arrow">﹀</span>
+          </button>
+          <div class="faq-a">
+            <p>Children are really adorable but our event is an adults-only event. Only children who are part of the entourage are included in both the ceremony and reception.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Can we sit anywhere at the reception?
+            <span class="faq-arrow">﹀</span>
+          </button>
+          <div class="faq-a">
+            <p>We have assigned seats for each one of you. It took us a lot of effort and discussion to finalize the seating arrangement, which is meant for everyone's convenience and group familiarity — so no need to worry. Our coordinators will gladly assist you in finding your designated seats.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What if I did not RSVP but will attend the wedding?
+            <span class="faq-arrow">﹀</span>
+          </button>
+          <div class="faq-a">
+            <p><strong>NO RSVP = NO SEAT.</strong> We will assign your seats so we strongly suggest you do the RSVP on or before <strong>May 25, 2026</strong>, or you may contact and inform us ahead of time. In any case that you may have said Yes in our RSVP but suddenly won't be able to attend, please let us know ASAP so we can accommodate any changes.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            When should we arrive at the venue?
+            <span class="faq-arrow">﹀</span>
+          </button>
+          <div class="faq-a">
+            <p>The ceremony will strictly start at <strong>4:00 PM</strong>. Entourage will march by <strong>3:30 PM</strong>. Please be at the venue at least 10–15 minutes before 3:30 PM.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            When can we leave?
+            <span class="faq-arrow">﹀</span>
+          </button>
+          <div class="faq-a">
+            <p>The program is estimated to last until <strong>9:00 PM</strong>. We are hoping that you will stay with us until the end of the program. Should you wish to leave early, we'd love to personally thank you and bid goodbye before you go — perhaps not until the same-day video is played.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-names">Cerjo & Kim</p>
+    <p class="footer-date">May 27, 2026 · May's Garden</p>
+    <p class="footer-hashtag">#CerjoAndKim</p>
+  </footer>
+
+  <script>
+<!-- 
+    // Hero background image upload
+    document.getElementById('hero-file-input').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const hero = document.getElementById('hero');
+        hero.style.backgroundImage = `url('${ev.target.result}')`;
+        hero.classList.remove('no-image');
+        document.querySelector('.hero-upload-btn').textContent = '↺ Change Photo';
+      };
+      reader.readAsDataURL(file);
+    });
+
+-->
+    // FAQ toggle
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    // Countdown
+    const wedding = new Date('2026-05-27T16:00:00');
+    function tick() {
+      const now = new Date();
+      const diff = wedding - now;
+      if (diff <= 0) {
+        document.getElementById('countdown').innerHTML = '<p style="font-family:Cormorant Garamond,serif;font-style:italic;font-size:1.5rem;color:var(--deep)">Today is the day! 🎉</p>';
+        return;
+      }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
+      document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+      document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+      document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('revealed');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(el => {
+      el.classList.add('reveal-ready');
+      observer.observe(el);
+    });
+
+    // Nav smooth scroll with offset for fixed nav
+    document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const top = target.getBoundingClientRect().top + window.scrollY - 60;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
