@@ -41,7 +41,7 @@
       align-items: center;
       gap: 3rem;
       padding: 1.1rem 2rem;
-      background: rgba(58, 46, 38, 0.92);
+      background: rgba(58, 46, 38, 0.96);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(201,169,110,0.25);
       font-size: 0.82rem;
@@ -65,6 +65,82 @@
     }
     nav a:hover { color: var(--gold); }
     nav a:hover::after { transform: scaleX(1); }
+
+    /* Hamburger button */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.4rem;
+      z-index: 101;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: rgba(255,255,255,0.85);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Nav links container */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    /* Nav brand (mobile only) */
+    .nav-brand {
+      display: none;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      flex: 1;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        justify-content: space-between;
+        padding: 1rem 1.4rem;
+      }
+      .nav-brand { display: block; }
+      .nav-toggle { display: flex; }
+
+      .nav-links {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        bottom: 0;
+        background: rgba(40, 30, 22, 0.97);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2.2rem;
+        font-size: 1rem;
+        letter-spacing: 0.25em;
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 99;
+      }
+      .nav-links.open {
+        transform: translateX(0);
+      }
+      .nav-links a {
+        color: rgba(255,255,255,0.85);
+        font-size: 1rem;
+      }
+      .nav-links a::after { display: none; }
+      .nav-links a:hover { color: var(--gold); }
+    }
 
     /* HERO */
     .hero {
@@ -598,6 +674,12 @@
       gap: 1.5rem;
       margin-bottom: 2rem;
     }
+    .dresscode-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
     .dc-card {
       background: white;
       border-radius: 4px;
@@ -608,12 +690,23 @@
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 1.4rem;
+      margin-bottom: 0.8rem;
     }
+    .dc-badge-row { margin-bottom: 1.2rem; }
+    .dc-badge {
+      display: inline-block;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.8rem;
+      border-radius: 20px;
+    }
+    .formal-badge    { background: #f0e8d8; color: #9a7040; }
+    .semiformal-badge { background: #e8f0e8; color: #507050; }
     .dc-item { margin-bottom: 1rem; }
     .dc-item p {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-style: italic;
       color: var(--deep);
       line-height: 1.6;
@@ -634,6 +727,11 @@
     }
     .female-tag { background: #f5e8e8; color: #a06070; }
     .male-tag   { background: #e8ede8; color: #506050; }
+    .dc-notes-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
     .dc-note {
       display: flex;
       gap: 1rem;
@@ -643,11 +741,17 @@
       padding: 1.2rem 1.5rem;
       border-radius: 0 4px 4px 0;
     }
+    .dc-note-white { background: white; }
     .dc-note-icon { font-size: 1.2rem; flex-shrink: 0; }
     .dc-note p {
       font-size: 0.9rem;
       line-height: 1.7;
       color: var(--ink);
+    }
+    .dc-note p strong { color: var(--deep); }
+    @media (max-width: 700px) {
+      .dresscode-grid-3 { grid-template-columns: 1fr; }
+      .dc-notes-row { grid-template-columns: 1fr; }
     }
     @media (max-width: 600px) {
       .dresscode-grid { grid-template-columns: 1fr; }
@@ -744,17 +848,23 @@
 
   <!-- NAV -->
   <nav>
-    <a href="#story">Story</a>
-    <a href="#details">Details</a>
-    <a href="#timeline">Timeline</a>
-    <a href="#palette">Palette</a>
-    <a href="#dresscode">Dress Code</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#faq">FAQ</a>
+    <span class="nav-brand">Cerjo & Kim</span>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="#story">Story</a>
+      <a href="#details">Details</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#palette">Palette</a>
+      <a href="#dresscode">Dress Code</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#faq">FAQ</a>
+    </div>
   </nav>
 
   <!-- HERO -->
-  <div class="hero" id="hero" style="background-image:url('Cover.jpg');">
+ <div class="hero" id="hero" style="background-image:url('Cover.jpg');">
     <div class="hero-ampersand">&</div>
     <input type="file" id="hero-file-input" accept="image/*">
     <div class="hero-content">
@@ -770,7 +880,6 @@
         <div class="countdown-item"><div class="countdown-num" id="cd-mins">--</div><div class="countdown-label">Minutes</div></div>
         <div class="countdown-item"><div class="countdown-num" id="cd-secs">--</div><div class="countdown-label">Seconds</div></div>
       </div>
-      <p class="hero-hashtag">#CerjoAndKim</p>
     </div>
   </div>
 
@@ -848,9 +957,26 @@
           </div>
         </div>
 
-        <!-- Entourage -->
+        <!-- Principal Sponsors -->
         <div class="role-row">
-          <div class="role-label">Entourage<br><span class="role-sub">Principal · Secondary · Flower Girls</span></div>
+          <div class="role-label">Principal Sponsors</div>
+          <div class="role-swatches">
+            <div class="swatch">
+              <div class="swatch-color" style="background:#f5e6c8; border:1px solid #e8d4a8;"></div>
+              <div class="swatch-name">Champagne</div>
+              <div class="swatch-gender female">♀ Female</div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background:#e8dcc8; border:1px solid #d4c9b0;"></div>
+              <div class="swatch-name">Beige</div>
+              <div class="swatch-gender male">♂ Male</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary Sponsors -->
+        <div class="role-row">
+          <div class="role-label">Secondary Sponsors</div>
           <div class="role-swatches">
             <div class="swatch">
               <div class="swatch-color" style="background:#f5e6c8; border:1px solid #e8d4a8;"></div>
@@ -920,39 +1046,71 @@
 
   <!-- DRESS CODE -->
   <section id="dresscode" style="max-width:100%; padding:6rem 2rem; background: var(--stone);">
-    <div style="max-width:900px; margin:0 auto;">
+    <div style="max-width:960px; margin:0 auto;">
       <p class="section-label">What to wear</p>
       <h2 class="section-title">Dress Code</h2>
       <div class="section-rule"></div>
-      <div class="dresscode-grid">
+      <div class="dresscode-grid-3">
+
         <div class="dc-card">
           <div class="dc-role">Principal Sponsors</div>
+          <div class="dc-badge-row">
+            <span class="dc-badge formal-badge">Formal</span>
+          </div>
           <div class="dc-item">
             <div class="dc-gender female-tag">♀ Ladies</div>
-            <p>Champagne / Beige Gown<br>Blocked heels or flats</p>
+            <p>Long gown<br>Follow the agreed motif color</p>
           </div>
           <div class="dc-divider"></div>
           <div class="dc-item">
             <div class="dc-gender male-tag">♂ Gentlemen</div>
-            <p>Black Suit with Bowtie<br>Formal shoes</p>
+            <p>Suit<br>Follow the agreed motif color</p>
           </div>
         </div>
+
+        <div class="dc-card">
+          <div class="dc-role">Secondary Sponsors</div>
+          <div class="dc-badge-row">
+            <span class="dc-badge semiformal-badge">Semi-Formal to Formal</span>
+          </div>
+          <div class="dc-item">
+            <div class="dc-gender female-tag">♀ Ladies</div>
+            <p>Coordinated dress or gown<br>Follow the assigned color palette</p>
+          </div>
+          <div class="dc-divider"></div>
+          <div class="dc-item">
+            <div class="dc-gender male-tag">♂ Gentlemen</div>
+            <p>Suit<br>Follow the assigned color palette</p>
+          </div>
+        </div>
+
         <div class="dc-card">
           <div class="dc-role">Guests</div>
+          <div class="dc-badge-row">
+            <span class="dc-badge semiformal-badge">Semi-Formal</span>
+          </div>
           <div class="dc-item">
             <div class="dc-gender female-tag">♀ Ladies</div>
-            <p>Long Gown<br>Blocked heels or flats</p>
+            <p>Dress or gown encouraged</p>
           </div>
           <div class="dc-divider"></div>
           <div class="dc-item">
             <div class="dc-gender male-tag">♂ Gentlemen</div>
-            <p>All Black Suit<br>No bowtie / necktie</p>
+            <p>Polo or long sleeves</p>
           </div>
         </div>
+
       </div>
-      <div class="dc-note">
-        <span class="dc-note-icon">📌</span>
-        <p>No sneakers, shorts, or short sleeves please. The event is strictly formal. Please dress appropriately — the area is mountainous and could be chilly / foggy.</p>
+
+      <div class="dc-notes-row">
+        <div class="dc-note dc-note-white">
+          <span class="dc-note-icon">🤍</span>
+          <p>Please avoid wearing <strong>white or off-white shades</strong> (cream, ivory, etc.) — these are reserved for the bride.</p>
+        </div>
+        <div class="dc-note dc-note-white">
+          <span class="dc-note-icon">👟</span>
+          <p>No <strong>casual wear</strong> — shorts, slippers, or sneakers are not permitted at this event.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -982,7 +1140,7 @@
       </div>
     </div>
 
-    <div class="gallery-grid" style="margin-top:3rem;">
+      <div class="gallery-grid" style="margin-top:3rem;">
       <div class="gallery-item"><img src="g5.jpeg" alt="Wedding couple" style="width:100%;height:100%;object-fit:cover;"></div>
       <div class="gallery-item"><img src="g8.jpeg" alt="Wedding rings" style="width:100%;height:100%;object-fit:cover;"></div>
       <div class="gallery-item"><img src="G3.jpeg" alt="Wedding flowers" style="width:100%;height:100%;object-fit:cover;"></div>
@@ -1078,11 +1236,10 @@
   <footer>
     <p class="footer-names">Cerjo & Kim</p>
     <p class="footer-date">May 27, 2026 · May's Garden</p>
-    <p class="footer-hashtag">#CerjoAndKim</p>
+    <p class="footer-hashtag">#foreverKIMittedtoCerjo</p>
   </footer>
 
   <script>
-<!-- 
     // Hero background image upload
     document.getElementById('hero-file-input').addEventListener('change', function(e) {
       const file = e.target.files[0];
@@ -1097,7 +1254,6 @@
       reader.readAsDataURL(file);
     });
 
--->
     // FAQ toggle
     function toggleFaq(btn) {
       const item = btn.parentElement;
@@ -1141,10 +1297,21 @@
       observer.observe(el);
     });
 
+    // Hamburger menu toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+
     // Nav smooth scroll with offset for fixed nav
     document.querySelectorAll('nav a[href^="#"]').forEach(link => {
       link.addEventListener('click', function(e) {
         e.preventDefault();
+        // Close mobile menu
+        navToggle.classList.remove('open');
+        navLinks.classList.remove('open');
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
           const top = target.getBoundingClientRect().top + window.scrollY - 60;
